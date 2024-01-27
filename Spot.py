@@ -13,8 +13,11 @@ auth_response = requests.post(auth_url, data=data)
 access_token = auth_response.json().get('access_token')
 
 print(access_token)
+artist = input("Artist: ")
 query = input("Search term: ")
 headers = {'Authorization':'Bearer {}'.format(access_token)}
-response = requests.get(f'https://api.spotify.com/v1/search?q={query}&type=artist',headers=headers)
+response = requests.get(f'https://api.spotify.com/v1/search?q={query} artist:{artist}&type=track&limit=1',headers=headers)
 
 print(response)
+results = response.json()
+print(results["tracks"]["items"][0]['external_urls']['spotify'])
