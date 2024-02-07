@@ -14,13 +14,12 @@ redirect_url = 'http://127.0.0.1:5000/callback'
 
 data = {'response_type': 'code',
       'client_id': client_id,
+        'scope': 'playlist-modify-public playlist-modify-private',
       'redirect_uri': redirect_url}
 @app.get("/login")
 def login():
     return redirect('https://accounts.spotify.com/authorize?' +up.urlencode(data),code=302)
 
-auth={'client_id' :client_id,
-        'client_secret' : client_key }
 token_url = 'https://accounts.spotify.com/api/token'
 
 access_token = ''
@@ -40,6 +39,10 @@ def codde():
     user_id = private_token.json()['id']
     print(user_id)
 
+    #playlist
+    data = '{"name": "My First Playlist","description": "New playlist description","public":false}'
+    playlist_response = requests.post('https://api.spotify.com/v1/users/31r37z5hczkjit5ycntx4opkgx2a/playlists',headers=headers,data=data)
+    print(playlist_response)
     return redirect('https://open.spotify.com/user/'+user_id,code=302)
 
 print(f'Access token: {access_token}')
