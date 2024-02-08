@@ -4,6 +4,7 @@ import base64
 from requests.auth import HTTPBasicAuth
 from flask import Flask,request,redirect
 import urllib.parse as up
+from simple import playlist_items
 
 app = Flask(__name__)
 
@@ -40,10 +41,17 @@ def codde():
     print(user_id)
 
     #playlist
-    data = '{"name": "My First Playlist","description": "New playlist description","public":false}'
+    data = '{"name": "My Playlist","description": "New playlist description","public":false}'
     playlist_response = requests.post('https://api.spotify.com/v1/users/31r37z5hczkjit5ycntx4opkgx2a/playlists',headers=headers,data=data)
-    print(playlist_response)
-    return redirect('https://open.spotify.com/user/'+user_id,code=302)
+    playlist_url = playlist_response.json()['external_urls']['spotify']
+
+    #print(playlist_response.json())
+
+    playlist_api_url = playlist_response.json()['href']
+    playlst = requests.post(f'{playlist_api_url}/tracks',headers=headers,data=f'{{ "uris" : {playlist_items}}}')
+    print(playlst)
+
+    return redirect(playlist_url,code=302)
 
 print(f'Access token: {access_token}')
 
