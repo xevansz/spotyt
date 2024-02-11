@@ -4,7 +4,9 @@ import base64
 from requests.auth import HTTPBasicAuth
 from flask import Flask,request,redirect
 import urllib.parse as up
-from simple import playlist_items
+from  playlist_grabber import playlist_items
+
+songs_list = playlist_items
 
 app = Flask(__name__)
 
@@ -23,7 +25,6 @@ def login():
 
 token_url = 'https://accounts.spotify.com/api/token'
 
-access_token = ''
 
 @app.get("/callback")
 def codde():
@@ -37,21 +38,22 @@ def codde():
 
     headers = {'Authorization' : 'Bearer {}'.format(access_token)}
     private_token = requests.get('https://api.spotify.com/v1/me',headers=headers)
+    print(private_token)
     user_id = private_token.json()['id']
     print(user_id)
-
     #playlist
-    data = '{"name": "My Playlist","description": "New playlist description","public":false}'
-    playlist_response = requests.post('https://api.spotify.com/v1/users/31r37z5hczkjit5ycntx4opkgx2a/playlists',headers=headers,data=data)
+    data = '{"name": "My trial list","description": "New playlist description","public":false}'
+    playlist_response = requests.post(f'https://api.spotify.com/v1/users/{user_id}/playlists',headers=headers,data=data)
     playlist_url = playlist_response.json()['external_urls']['spotify']
 
-    #print(playlist_response.json())
-
+    playlist_items = json.dumps(songs_list)
+    print(playlist_items)
+          
     playlist_api_url = playlist_response.json()['href']
     playlst = requests.post(f'{playlist_api_url}/tracks',headers=headers,data=f'{{ "uris" : {playlist_items}}}')
     print(playlst)
 
     return redirect(playlist_url,code=302)
 
-print(f'Access token: {access_token}')
+#print(f'Access token: {access_token}')
 
