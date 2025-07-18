@@ -1,0 +1,15 @@
+[project]
+name = "spotyt"
+version = "0.2.3"
+description = "Default template for PDM package"
+authors = [
+    {name = "xevansz", email = "minithbmatthew@gmail.com"},
+]
+dependencies = ["Flask>=3.1.1", "requests>=2.32.4", "google-api-python-client>=2.176.0", "python-dotenv>=1.1.1"]
+requires-python = "==3.11.*"
+readme = "README.md"
+license = {text = "MIT"}
+
+
+[tool.pdm]
+distribution = false
