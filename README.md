@@ -29,12 +29,18 @@ spotyt/
       scripts.js
 ```
 
-## Installation
+## Installation (with PDM)
 
-Install dependencies:
+[PDM](https://pdm.fming.dev/) is a modern Python package and dependency manager. If you don't have it, install it with:
 
 ```
-pip install -U google-api-python-client requests Flask
+pip install pdm
+```
+
+Install dependencies and create a virtual environment:
+
+```
+pdm install
 ```
 
 ## Environment Variables (.env)
@@ -63,7 +69,7 @@ FLASK_SECRET_KEY=your_flask_secret
 1. Set your environment variables (see above).
 2. Run the app:
    ```
-   python app.py
+   pdm run python app.py
    ```
 3. Open your browser to [http://127.0.0.1:5000](http://127.0.0.1:5000)
 4. Login with Spotify, enter a YouTube playlist link, and create your playlist!
