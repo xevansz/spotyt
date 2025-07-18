@@ -4,6 +4,25 @@
 
 {% block content %}
 <h1>Welcome to My Flask Spotify App</h1>
-<p>Click the button below to login with Spotify and manage your playlists!</p>
-<a href="/login" class="btn">Login with Spotify</a>
+<p>Convert a YouTube playlist into a Spotify playlist in a few clicks!</p>
+
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class="flashes">
+      {% for message in messages %}
+        <li>{{ message }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
+<form method="post" action="/">
+  <label for="youtube_playlist_link">YouTube Playlist Link:</label><br>
+  <input type="url" id="youtube_playlist_link" name="youtube_playlist_link" placeholder="https://www.youtube.com/playlist?list=..." required style="width: 350px;"><br><br>
+  <label for="num_songs">Number of Songs:</label><br>
+  <input type="number" id="num_songs" name="num_songs" min="1" max="100" value="10" required><br><br>
+  <button type="submit" class="btn">Create Spotify Playlist</button>
+</form>
+
+<p style="margin-top: 2em;">Or, <a href="/login" class="btn">Login with Spotify</a> if you haven't already.</p>
 {% endblock %}
